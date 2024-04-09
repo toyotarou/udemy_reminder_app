@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "470663779758",
+    "project_id": "hideyuki-firebase2",
+    "storage_bucket": "hideyuki-firebase2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470663779758:android:e51822ad69d778dfbde43f",
+        "android_client_info": {
+          "package_name": "com.example.test_udemy_reminder_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwziwM-SSA_MakFzHrlSBgJCDaHLMlklw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
