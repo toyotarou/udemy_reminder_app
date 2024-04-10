@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/authentication_screen.dart';
-
 import 'firebase_options.dart';
+import 'screens/authentication_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

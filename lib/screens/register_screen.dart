@@ -134,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (currentUser != null) {
-      FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).set({
+      await FirebaseFirestore.instance.collection('users').doc(currentUser!.uid).set({
         'uid': currentUser!.uid,
         'email': currentUser!.email,
         'name': nameEditingController.text,
@@ -155,6 +155,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       sharedPreferences;
     });
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 }
