@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text('Name'),
+                const Text('name'),
                 CupertinoTextField(
                   controller: nameEditingController,
                   padding: const EdgeInsets.all(10),
