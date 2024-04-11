@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:test_udemy_reminder_app/general/general.dart';
 
 import '../extensions/extensions.dart';
 
@@ -66,6 +69,62 @@ class _RemindInputScreenState extends State<RemindInputScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
+              isLoading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () async {
+                        if (titleEditingController.text.trim().isNotEmpty && descriptionEditingController.text.trim().isNotEmpty) {
+                          if (selectedTime != null && selectedTime != null) {
+                            setState(() {
+                              isLoading = true;
+                            });
+
+                            final reminderId =
+                                DateTime.now().millisecondsSinceEpoch.toString() + sharedPreferences!.getString('uid')!.substring(0, 3);
+
+                            final finalDateTime =
+                                DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day, selectedTime!.hour, selectedTime!.minute);
+
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(sharedPreferences!.getString('uid'))
+                                .collection('reminders')
+                                .doc(reminderId)
+                                .set({
+                              'reminderId': reminderId,
+                              'reminderCreatedDate': DateTime.now().millisecondsSinceEpoch,
+                              'reminderTitle': titleEditingController.text,
+                              'reminderDescription': descriptionEditingController.text,
+                              'reminderDate': finalDateTime,
+                              'status': 'created',
+                            }).whenComplete(() {
+                              FirebaseFirestore.instance.collection('reminders').doc(reminderId).set({
+                                'reminderId': reminderId,
+                                'reminderCreatedDate': DateTime.now().millisecondsSinceEpoch,
+                                'reminderTitle': titleEditingController.text,
+                                'reminderDescription': descriptionEditingController.text,
+                                'reminderDate': finalDateTime,
+                                'status': 'created',
+                              }).whenComplete(() {
+                                isLoading = false;
+                                titleEditingController.clear();
+                                descriptionEditingController.clear();
+                                selectedDate = null;
+                                selectedTime = null;
+
+                                Fluttertoast.showToast(msg: 'reminder registed', timeInSecForIosWeb: 5);
+                              });
+                            });
+                          } else {
+                            await Fluttertoast.showToast(msg: 'date and time are required');
+                          }
+                        } else {
+                          await Fluttertoast.showToast(msg: 'title and description are required');
+                        }
+                      },
+                      child: const Text('add reminder'),
+                    ),
             ],
           ),
         ),
@@ -97,7 +156,9 @@ class _RemindInputScreenState extends State<RemindInputScreen> {
     );
 
     if (pickedTime != null && pickedTime != selectedTime) {
-      selectedTime = pickedTime;
+      setState(() {
+        selectedTime = pickedTime;
+      });
     }
   }
 }
