@@ -64,8 +64,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      Text(_displayReminderDateTime(model: model)),
                                       Text(model.reminderTitle!),
                                       Text(model.reminderDescription!),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(),
+                                          Text(model.status!),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                   Positioned(
@@ -106,5 +114,11 @@ class _HomeScreenState extends State<HomeScreen> {
         label: const Icon(Icons.add_rounded),
       ),
     );
+  }
+
+  ///
+  String _displayReminderDateTime({required Reminder model}) {
+    final date = model.reminderDate!.toDate();
+    return '${date.yyyymmdd} ${date.hour}:${date.minute}';
   }
 }
