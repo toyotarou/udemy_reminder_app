@@ -98,6 +98,7 @@ class _RemindInputScreenState extends State<RemindInputScreen> {
                               'reminderDescription': descriptionEditingController.text,
                               'reminderDate': finalDateTime,
                               'status': 'created',
+                              'userId': sharedPreferences!.getString('uid')
                             }).whenComplete(() {
                               FirebaseFirestore.instance.collection('reminders').doc(reminderId).set({
                                 'reminderId': reminderId,
@@ -106,14 +107,17 @@ class _RemindInputScreenState extends State<RemindInputScreen> {
                                 'reminderDescription': descriptionEditingController.text,
                                 'reminderDate': finalDateTime,
                                 'status': 'created',
+                                'userId': sharedPreferences!.getString('uid')
                               }).whenComplete(() {
-                                isLoading = false;
-                                titleEditingController.clear();
-                                descriptionEditingController.clear();
-                                selectedDate = null;
-                                selectedTime = null;
+                                setState(() {
+                                  isLoading = false;
+                                  titleEditingController.clear();
+                                  descriptionEditingController.clear();
+                                  selectedDate = null;
+                                  selectedTime = null;
 
-                                Fluttertoast.showToast(msg: 'reminder registed', timeInSecForIosWeb: 5);
+                                  Fluttertoast.showToast(msg: 'reminder registed', timeInSecForIosWeb: 5);
+                                });
                               });
                             });
                           } else {
